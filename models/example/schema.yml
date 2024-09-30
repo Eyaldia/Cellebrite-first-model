@@ -2,7 +2,7 @@
 version: 2
 
 models:
-    - name: my_first_dbt_model
+    - name: OPP_AND_ACC_STG
       description: "A starter dbt model"
       columns:
           - name: id
@@ -11,10 +11,10 @@ models:
                 - unique
                 - not_null
 
-    - name: my_second_dbt_model
+    - name: BOOKING_T
       description: "A starter dbt model"
       columns:
-          - name: id
+          - name: opp_id
             description: "The primary key for this table"
             tests:
                 - unique
