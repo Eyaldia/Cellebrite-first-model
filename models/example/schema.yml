@@ -2,10 +2,19 @@
 version: 2
 
 models:
-    - name: OPPORTUNITY
+    - name: OPPORTUNITY_STG
       description: "build the Account Table for the POC Model"
       columns:
           - name: NETSUITE_CONN_NET_SUITE_SALES_ORDER_NUMBER_C
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: INVOICE_STG
+      description: "build the Account Table for the POC Model"
+      columns:
+          - name: SOURCE_TRANSACTION_ID
             description: "The primary key for this table"
             tests:
                 - unique
