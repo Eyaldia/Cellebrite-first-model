@@ -11,22 +11,46 @@
     materialized='table',
     database='STAGING_DB_DEV') }}
 
-
-with source_data as (
-
-select OPP.ID                       OPP_ID 
-        , OPP.NAME                  OPP_NAME
-        , ACC.ID                    ACC_ID 
-        , ACC.NAME                  ACC_NAME
-        , OPP.STAGE_NAME            STAGE_NAME
-        , OPP.AMOUNT                AMOUNT
-from    DATALAKE_DB_DEV.SALESFORCE.OPPORTUNITY  OPP
-        , DATALAKE_DB_DEV.SALESFORCE.ACCOUNT    ACC
-where   OPP.ACCOUNT_ID = ACC.ID
+with TRAN as 
+(
+    Select TRANID 				
+            , TRANSACTION_ID
+            , TRANSACTION_ID         TRANSACTION_ID_SOURCE
+	        , TRANSACTION_TYPE	
+	        , CREATED_FROM_ID 	
+    from    DATALAKE_DB_DEV.NETSUITE.TRANSACTIONS      
 )
+select  
+        case when T0.TRANSACTION_TYPE = 'Sales Order' then T0.TRANSACTION_ID
+             when T1.TRANSACTION_TYPE = 'Sales Order' then T1.TRANSACTION_ID
+             when T2.TRANSACTION_TYPE = 'Sales Order' then T2.TRANSACTION_ID
+             when T3.TRANSACTION_TYPE = 'Sales Order' then T3.TRANSACTION_ID
+             when T4.TRANSACTION_TYPE = 'Sales Order' then T4.TRANSACTION_ID
+             else null 
+             end                    as SOURCE_TRANSACTION_ID   
+      , case when T0.TRANSACTION_TYPE = 'Sales Order' then T0.TRANID
+             when T1.TRANSACTION_TYPE = 'Sales Order' then T1.TRANID
+             when T2.TRANSACTION_TYPE = 'Sales Order' then T2.TRANID
+             when T3.TRANSACTION_TYPE = 'Sales Order' then T3.TRANID
+             when T4.TRANSACTION_TYPE = 'Sales Order' then T4.TRANID
+             else null 
+             end                    as SOURCE_TRANID   
+from    TRAN    T0
+        left outer join 
+        TRAN    T1
+        on T0.CREATED_FROM_ID = T1.TRANSACTION_ID_SOURCE
+        left outer join 
+        TRAN    T2
+        on T1.CREATED_FROM_ID = T2.TRANSACTION_ID_SOURCE
+        left outer join 
+        TRAN    T3
+        on T2.CREATED_FROM_ID = T3.TRANSACTION_ID_SOURCE
+        left outer join 
+        TRAN    T4
+        on T3.CREATED_FROM_ID = T4.TRANSACTION_ID_SOURCE
+where   T0.TRANSACTION_TYPE in ( 'Invoice','Credit Memo','Cash Sale','Cash Refund')
+        
 
-select *
-from source_data
 
 /*
     Uncomment the line below to remove records with null `id` values

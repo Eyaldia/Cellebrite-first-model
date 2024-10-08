@@ -12,24 +12,19 @@
     database='STAGING_DB_DEV') }}
 
 
-with source_data as (
-
-select OPP.ID                       OPP_ID 
-        , OPP.NAME                  OPP_NAME
-        , ACC.ID                    ACC_ID 
-        , ACC.NAME                  ACC_NAME
-        , OPP.STAGE_NAME            STAGE_NAME
-        , OPP.AMOUNT                AMOUNT
-from    DATALAKE_DB_DEV.SALESFORCE.OPPORTUNITY  OPP
-        , DATALAKE_DB_DEV.SALESFORCE.ACCOUNT    ACC
-where   OPP.ACCOUNT_ID = ACC.ID
+select  OPP.NETSUITE_CONN_NET_SUITE_SALES_ORDER_NUMBER_C
+        , OPP.STAGE_NAME
+        , count(distinct ACC.SFDC_ACCOUNT_ID_C)         ACC_COUNT
+from    DATALAKE_DB_DEV.SALESFORCE.OPPORTUNITY          OPP
+        left outer join
+        DATALAKE_DB_DEV.SALESFORCE.ACCOUNT              ACC
+        on OPP.REPORTING_ACCOUNT_C = ACC.ID 
+where   OPP.NETSUITE_CONN_NET_SUITE_SALES_ORDER_NUMBER_C like 'SO%'
+group by all 
+having count(distinct ACC.SFDC_ACCOUNT_ID_C) = 1 or (count(distinct ACC.SFDC_ACCOUNT_ID_C) =2 and STAGE_NAME='Close Won') ; 
 )
 
 select *
 from source_data
 
-/*
-    Uncomment the line below to remove records with null `id` values
-*/
 
--- where id is not null
