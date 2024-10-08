@@ -2,19 +2,10 @@
 version: 2
 
 models:
-    - name: OPP_AND_ACC_STG
-      description: "A starter dbt model"
+    - name: ACCOUNT_STG
+      description: "build the Account Table for the POC Model"
       columns:
-          - name: id
-            description: "The primary key for this table"
-            tests:
-                - unique
-                - not_null
-
-    - name: BOOKING_T
-      description: "A starter dbt model"
-      columns:
-          - name: opp_id
+          - name: NETSUITE_CONN_NET_SUITE_SALES_ORDER_NUMBER_C
             description: "The primary key for this table"
             tests:
                 - unique
