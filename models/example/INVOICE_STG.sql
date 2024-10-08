@@ -49,11 +49,3 @@ from    TRAN    T0
         TRAN    T4
         on T3.CREATED_FROM_ID = T4.TRANSACTION_ID_SOURCE
 where   T0.TRANSACTION_TYPE in ( 'Invoice','Credit Memo','Cash Sale','Cash Refund')
-        
-
-
-/*
-    Uncomment the line below to remove records with null `id` values
-*/
-
--- where id is not null

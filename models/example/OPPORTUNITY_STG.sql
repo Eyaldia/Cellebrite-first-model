@@ -21,10 +21,6 @@ from    DATALAKE_DB_DEV.SALESFORCE.OPPORTUNITY          OPP
         on OPP.REPORTING_ACCOUNT_C = ACC.ID 
 where   OPP.NETSUITE_CONN_NET_SUITE_SALES_ORDER_NUMBER_C like 'SO%'
 group by all 
-having count(distinct ACC.SFDC_ACCOUNT_ID_C) = 1 or (count(distinct ACC.SFDC_ACCOUNT_ID_C) =2 and STAGE_NAME='Close Won') ; 
-)
-
-select *
-from source_data
+having count(distinct ACC.SFDC_ACCOUNT_ID_C) = 1 or (count(distinct ACC.SFDC_ACCOUNT_ID_C) =2 and STAGE_NAME='Close Won') 
 
 

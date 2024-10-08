@@ -19,3 +19,12 @@ models:
             tests:
                 - unique
                 - not_null
+
+    - name: ACCOUNT_T
+      description: "build the Account Table for the POC Model"
+      columns:
+          - name: ID
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
