@@ -2,7 +2,7 @@
 version: 2
 
 models:
-    - name: ACCOUNT_STG
+    - name: OPPORTUNITY
       description: "build the Account Table for the POC Model"
       columns:
           - name: NETSUITE_CONN_NET_SUITE_SALES_ORDER_NUMBER_C
