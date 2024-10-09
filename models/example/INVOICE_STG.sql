@@ -21,7 +21,8 @@ with TRAN as
     from    DATALAKE_DB_DEV.NETSUITE.TRANSACTIONS      
 )
 select  
-        case when T0.TRANSACTION_TYPE = 'Sales Order' then T0.TRANSACTION_ID
+      T0.TRANSACTION_ID
+      ,  case when T0.TRANSACTION_TYPE = 'Sales Order' then T0.TRANSACTION_ID
              when T1.TRANSACTION_TYPE = 'Sales Order' then T1.TRANSACTION_ID
              when T2.TRANSACTION_TYPE = 'Sales Order' then T2.TRANSACTION_ID
              when T3.TRANSACTION_TYPE = 'Sales Order' then T3.TRANSACTION_ID
