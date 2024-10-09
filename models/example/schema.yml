@@ -28,3 +28,12 @@ models:
             tests:
                 - unique
                 - not_null
+
+    - name: INVOICES_T
+      description: "build the Account Table for the POC Model"
+      columns:
+          - name: _HoldRevRecKey
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null

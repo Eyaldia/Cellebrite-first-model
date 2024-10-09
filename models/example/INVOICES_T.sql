@@ -60,7 +60,7 @@ from    DATALAKE_DB_DEV.NETSUITE.TRANSACTIONS       TRN
         TRANSACTION_LINES                           TRL 
         on TRN.TRANSACTION_ID = TRL.TRANSACTION_ID
         left outer join
-        STAGING_DB_DEV.MAIN.INVOICE_STG             SRC
+        {{ ref("INVOICE_STG") }}                      SRC
         on TRN.TRANSACTION_ID = SRC.TRANSACTION_ID
         left outer join
         DATALAKE_DB_DEV.NETSUITE.CUSTOMERS          CUS
@@ -70,4 +70,3 @@ from    DATALAKE_DB_DEV.NETSUITE.TRANSACTIONS       TRN
         on TRN.ENTITY_ID = ENT.ENTITY_ID
 where   TRN.TRANSACTION_TYPE in( 'Invoice','Credit Memo','Cash Sale','Cash Refund')
         and  TRANID not Like 'REV REC%'
-        ;
