@@ -21,7 +21,6 @@ select  ITEM_ID
         , FAM.PRODUCT_GROUP_ID			                as _Product_GroupKey
         , SUB_GROUP_ID 				                    as _Product_SubGroupKey
         , PRODUCT_GROUP_NAME 	                        as PRODUCT_GROUP
-        , LIST_ID 		                                as _Product_SubGroupKey  
         , LIST_ITEM_NAME                                as PRODUCT_SUB_GROUP
 from    DATALAKE_DB_DEV.NETSUITE.ITEMS                  ITM     
         left outer join 
