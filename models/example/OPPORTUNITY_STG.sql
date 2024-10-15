@@ -14,6 +14,7 @@
 
 select  OPP.NETSUITE_CONN_NET_SUITE_SALES_ORDER_NUMBER_C
         , OPP.STAGE_NAME
+        , OPP.REPORTING_ACCOUNT_C
         , count(distinct ACC.SFDC_ACCOUNT_ID_C)         ACC_COUNT
 from    DATALAKE_DB_DEV.SALESFORCE.OPPORTUNITY          OPP
         left outer join
