@@ -16,9 +16,9 @@ select  OPP.NETSUITE_CONN_NET_SUITE_SALES_ORDER_NUMBER_C
         , OPP.STAGE_NAME
         , OPP.REPORTING_ACCOUNT_C
         , count(distinct ACC.SFDC_ACCOUNT_ID_C)         ACC_COUNT
-from    DATALAKE_DB_DEV.SALESFORCE.OPPORTUNITY          OPP
+from    {{env_var('DBT_DATALAKE_DB')}}.SALESFORCE.OPPORTUNITY          OPP
         left outer join
-        DATALAKE_DB_DEV.SALESFORCE.ACCOUNT              ACC
+        {{env_var('DBT_DATALAKE_DB')}}.SALESFORCE.ACCOUNT              ACC
         on OPP.REPORTING_ACCOUNT_C = ACC.ID 
 where   OPP.NETSUITE_CONN_NET_SUITE_SALES_ORDER_NUMBER_C like 'SO%'
 group by all 

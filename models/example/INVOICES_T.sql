@@ -13,7 +13,7 @@
 with TRANSACTION_LINES as
 ( 
     select * 
-    from    DATALAKE_DB_DEV.NETSUITE.TRANSACTION_LINES
+    from    {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.TRANSACTION_LINES
     where   ACCOUNT_ID is not null 
             and TAX_TYPE is not null 
             and ITEM_ID is not null
@@ -74,7 +74,7 @@ select  DUE_DATE
             then 3
             else ITM.PRODUCT_FAMILY_ID
             end                                                as PRODUCT_FAMILY_ID    
-from    DATALAKE_DB_DEV.NETSUITE.TRANSACTIONS           TRN
+from    {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.TRANSACTIONS           TRN
         left outer join 
         TRANSACTION_LINES                               TRL 
         on TRN.TRANSACTION_ID = TRL.TRANSACTION_ID
@@ -82,19 +82,19 @@ from    DATALAKE_DB_DEV.NETSUITE.TRANSACTIONS           TRN
         {{ ref("INVOICE_STG") }}                        SRC
         on TRN.TRANSACTION_ID = SRC.TRANSACTION_ID
         left outer join
-        DATALAKE_DB_DEV.NETSUITE.CUSTOMERS              CUS
+        {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.CUSTOMERS              CUS
         on TRN.ENTITY_ID = CUS.CUSTOMER_ID
         left outer join 
-        DATALAKE_DB_DEV.NETSUITE.ENTITY                 ENT
+        {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.ENTITY                 ENT
         on TRN.ENTITY_ID = ENT.ENTITY_ID
         left outer join 
-        DATALAKE_DB_DEV.NETSUITE.ITEMS                  ITM
+        {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.ITEMS                  ITM
         on TRL.ITEM_ID = ITM.ITEM_ID
         left outer join 
-        DATALAKE_DB_DEV.NETSUITE.CURRENCIES             CUR
+        {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.CURRENCIES             CUR
         on TRN.CURRENCY_ID = CUR.CURRENCY_ID
         left outer join 
-        DATALAKE_DB_DEV.NETSUITE.CB_ORDER_TYPE_LIST     CBT
+        {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.CB_ORDER_TYPE_LIST     CBT
         on TRN.ORDER_TYPE_ID = CBT.CB_ORDER_TYPE_LIST_ID
         left outer join
         {{ ref('OPPORTUNITY_STG') }}                    OPP

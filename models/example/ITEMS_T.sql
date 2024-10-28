@@ -22,13 +22,13 @@ select  ITEM_ID
         , SUB_GROUP_ID 				                    as _Product_SubGroupKey
         , PRODUCT_GROUP_NAME 	                        as PRODUCT_GROUP
         , LIST_ITEM_NAME                                as PRODUCT_SUB_GROUP
-from    DATALAKE_DB_DEV.NETSUITE.ITEMS                  ITM     
+from    {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.ITEMS                  ITM     
         left outer join 
-        DATALAKE_DB_DEV.NETSUITE.CB_PRODUCT_FAMILY      FAM
+        {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.CB_PRODUCT_FAMILY      FAM
         on _FamilyKey = FAM.CB_PRODUCT_FAMILY_ID
         left outer join 
-        DATALAKE_DB_DEV.NETSUITE.PRODUCT_GROUP          FRP
+        {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.PRODUCT_GROUP          FRP
         on FAM.PRODUCT_GROUP_ID = FRP.PRODUCT_GROUP_ID
        left outer join 
-        DATALAKE_DB_DEV.NETSUITE.PRODUCT_SUB_GROUP      SUB
+        {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.PRODUCT_SUB_GROUP      SUB
         on FAM.SUB_GROUP_ID = SUB.LIST_ID

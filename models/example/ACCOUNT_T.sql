@@ -40,16 +40,16 @@ Select  SFDC_ID 			as ID
             then 'Digital Intelligence'
             else 'MLC'
             end             AS LINE_OF_BUSINESS__C
-FROM    DATALAKE_DB_DEV.NETSUITE.CUSTOMERS          CUS
+FROM    {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.CUSTOMERS          CUS
         left outer join 
-        DATALAKE_DB_DEV.NETSUITE.CUSTOMER_TYPES     TYP
+        {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.CUSTOMER_TYPES     TYP
         on CUS.CUSTOMER_TYPE_ID = TYP.CUSTOMER_TYPE_ID 
 where   not exists (    select ID
-                        from DATALAKE_DB_DEV.SALESFORCE.ACCOUNT 
+                        from {{env_var('DBT_DATALAKE_DB')}}.SALESFORCE.ACCOUNT 
                         where CUS.CUSTOMER_EXTID = SFDC_Account_ID_c
                     )
         and not exists ( select ID 
-                         from   DATALAKE_DB_DEV.SALESFORCE.ACCOUNT 
+                         from   {{env_var('DBT_DATALAKE_DB')}}.SALESFORCE.ACCOUNT 
                          where CUS.SFDC_ID = ID
                     )
 

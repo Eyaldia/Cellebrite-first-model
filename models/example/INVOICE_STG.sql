@@ -18,7 +18,7 @@ with TRAN as
             , TRANSACTION_ID         TRANSACTION_ID_SOURCE
 	        , TRANSACTION_TYPE	
 	        , CREATED_FROM_ID 	
-    from    DATALAKE_DB_DEV.NETSUITE.TRANSACTIONS      
+    from    {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.TRANSACTIONS      
 )
 select  
       T0.TRANSACTION_ID
