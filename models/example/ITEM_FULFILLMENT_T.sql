@@ -21,8 +21,10 @@ with TRANSACTION_LINES as
                 and ITEM_ID <> '87'
 ), 
 ORDER_STG as 
-    (   select distinct TRANID || ' | ' || TRANSACTION_LINE_ID  as _Line_Key 
+    (   select  TRANID || ' | ' || TRANSACTION_LINE_ID  as _Line_Key 
+                , count(*)                                          as IS_ORDER_LINE
         from {{ ref('ORDER_STG') }}
+        group by all 
 
 )
 select  TRN.TRANID  
@@ -30,7 +32,7 @@ select  TRN.TRANID
         , TRN.CREATED_FROM_ID AS _CreatedFromId_Key
         , TRN.TRANSACTION_ID AS _ITFLineKey
         , TRL.TRANSACTION_ID || ' | ' || TRL.CREATED_FROM_LINE_ID  as _Line_Key    
-        , ORD.*
+        , ORD.IS_ORDER_LINE
 from    {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.TRANSACTIONS        TRN
         left outer join 
         {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.TRANSACTIONS        TRN1
