@@ -15,7 +15,7 @@ with TRANSACTION_LINES as
     select * 
     from    {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.TRANSACTION_LINES
     where   ACCOUNT_ID is not null 
-            and TAX_TYPE is not null 
+            and TAX_TYPE is  null 
             and ITEM_ID is not null
             and  ITEM_ID not Like '87'
 )

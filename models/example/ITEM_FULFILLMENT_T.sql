@@ -19,20 +19,20 @@ with TRANSACTION_LINES as
                 and TAX_TYPE is null 
                 and ITEM_ID is not null 
                 and ITEM_ID <> '87'
-), 
-ORDER_STG as 
-    (   select  TRANID || ' | ' || TRANSACTION_LINE_ID  as _Line_Key 
-                , count(*)                                          as IS_ORDER_LINE
-        from {{ ref('ORDER_STG') }}
-        group by all 
-
-)
+)--, 
+--ORDER_STG as 
+--    (   select  TRANID || ' | ' || TRANSACTION_LINE_ID  as _Line_Key 
+--                , count(*)                                          as IS_ORDER_LINE
+--        from {{ ref('ORDER_STG') }}
+--        group by all 
+--
+--)
 select  TRN.TRANID  
         , To_Date(TRN.TRANDATE)                                     as TRANDATE
         , TRN.CREATED_FROM_ID AS _CreatedFromId_Key
         , TRN.TRANSACTION_ID AS _ITFLineKey
         , TRL.TRANSACTION_ID || ' | ' || TRL.CREATED_FROM_LINE_ID  as _Line_Key    
-        , ORD.IS_ORDER_LINE
+--        , ORD.IS_ORDER_LINE
 from    {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.TRANSACTIONS        TRN
         left outer join 
         {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.TRANSACTIONS        TRN1
@@ -40,9 +40,7 @@ from    {{env_var('DBT_DATALAKE_DB')}}.NETSUITE.TRANSACTIONS        TRN
         left outer join
         TRANSACTION_LINES                                           TRL
         on TRN1.TRANSACTION_ID = TRL.TRANSACTION_ID
-        left outer join 
-        ORDER_STG                                                   ORD
-        on _Line_Key = ORD._Line_Key
+--        left outer join 
+--        ORDER_STG                                                   ORD
+--        on _Line_Key = ORD._Line_Key
 Where   TRN.TRANSACTION_TYPE = 'Item Fulfillment' 
-
-
