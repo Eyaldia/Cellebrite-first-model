@@ -27,19 +27,19 @@ select  DUE_DATE
         , TRANID 																
         , TRN.TRANSACTION_ID 														
         , END_CUSTOMER_ID 	
-        , Nvl(BOOKING_DATE,TRANDATE)                as BOOKING_DATE
-        , SF_OPPORTUNITY_NUMBER 					as SF_OPPORTUNITY_NUMBER_2
+        , Nvl(BOOKING_DATE,TRANDATE)                           as BOOKING_DATE
+        , SF_OPPORTUNITY_NUMBER 					           as SF_OPPORTUNITY_NUMBER_2
         , TRANSACTION_TYPE 														
         , TOTAL_AMOUNT_ 				
         , USD_EXCHANGE_RATE 			
-        , TRN.ENTITY_ID 		                        as _CustomerKey
-	    , TRN.TRANSACTION_ID                        as _InvRowsKey
-        , TRN.TRANSACTION_ID                        as _CreatedFromSOKey
-        , ORDER_TYPE_ID 	                        as _OrdTypKey
-        , TRN.CURRENCY_ID 	                            as _CurrencyKey 
-	    , (-1) * AMOUNT                             as AMOUNT 
-	    , (-1) * AMOUNT_FOREIGN                     as AMOUNT_FOREIGN
-        , (-1) * ITEM_COUNT                         as ITEM_COUNT   
+        , TRN.ENTITY_ID 		                               as _CustomerKey
+	    , TRN.TRANSACTION_ID                                   as _InvRowsKey
+        , TRN.TRANSACTION_ID                                   as _CreatedFromSOKey
+        , ORDER_TYPE_ID 	                                   as _OrdTypKey
+        , TRN.CURRENCY_ID 	                                   as _CurrencyKey 
+	    , (-1) * AMOUNT                                        as AMOUNT 
+	    , (-1) * AMOUNT_FOREIGN                                as AMOUNT_FOREIGN
+        , (-1) * ITEM_COUNT                                    as ITEM_COUNT   
         , case when CUSTOM_LINE_ID=0
             then TRL.ITEM_ID
             else CUSTOM_LINE_ID
