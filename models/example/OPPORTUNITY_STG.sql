@@ -24,4 +24,13 @@ where   OPP.NETSUITE_CONN_NET_SUITE_SALES_ORDER_NUMBER_C like 'SO%'
 group by all 
 having count(distinct ACC.SFDC_ACCOUNT_ID_C) = 1 or (count(distinct ACC.SFDC_ACCOUNT_ID_C) =2 and STAGE_NAME='Close Won') 
 
+/* QliK
+"Selece SF_Opp_ID__c
+    ,netsuite_conn__NetSuite_Sales_Order_Number__c
+    ,StageName    
+    ,Reporting_Account__c AS _ReportingAccountKey
+FROM Opportunity
+Where netsuite_conn__NetSuite_Sales_Order_Number__c like 'SO*'"
+*/
 
+-- we chnage the logic from qlik to new approache 
